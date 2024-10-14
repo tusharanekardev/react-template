@@ -34,13 +34,12 @@ const CustomCard = styled(Card)`
  * @param {string} props.thumbnailSrc - thumbnail of the media
  * @returns {JSX.Element} The RepoCard component displaying the repository information.
  */
-export function TrackCard({ artistName, collectionName, previewUrl, artworkUrl60 }) {
+export function TrackCard({ artistName, collectionName, previewUrl, artworkUrl100 }) {
   return (
     <CustomCard data-testid="track-card">
+      <img src={artworkUrl100} alt={collectionName} />
       <p>{artistName}</p>
       <p>{collectionName}</p>
-      <p>{artistName}</p>
-      <p>{artistName}</p>
     </CustomCard>
   );
 }
@@ -49,7 +48,7 @@ TrackCard.propTypes = {
   artistName: PropTypes.string,
   collectionName: PropTypes.string,
   previewUrl: PropTypes.string,
-  artworkUrl60: PropTypes.string
+  artworkUrl100: PropTypes.string
 };
 
 export default TrackCard;
