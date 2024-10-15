@@ -6,11 +6,10 @@ const { REQUEST_GET_GITHUB_REPOS } = homeContainerTypes;
 const { successGetGithubRepos, failureGetGithubRepos } = homeContainerCreators;
 
 /**
- * A saga that handles fetching GitHub repositories based on a given repository name.
+ * A saga that handles fetching Itunes tracks based on a given track name.
  * On success, it dispatches a success action with the fetched data.
  * On failure, it dispatches a failure action with the error data.
  *
- * @date 01/03/2024 - 14:47:28
  *
  * @param {Object} action - The action object containing the repository name.
  * @yields {Effect} The effect of calling the API, and then either the success or failure action.

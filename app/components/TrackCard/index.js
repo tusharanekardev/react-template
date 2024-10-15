@@ -20,19 +20,15 @@ const CustomCard = styled(Card)`
 `;
 
 /**
- * MediaItemCard component that displays information about a Media item (like a song).
- * It shows the repository's name, full name, and star count.
+ * A functional component that renders a card displaying track information.
  *
- * @date 01/03/2024 - 14:47:28
- *
- * @param {Object} props - The component props.
- * @param {string} props.trackName - The name of the track.
- * @param {string} props.collectionName - The name of the collection.
+ * @param {Object} props - The properties passed to the component.
  * @param {string} props.artistName - The name of the artist.
- * @param {string} props.country - The name of the country the media is from
- * @param {string} props.primaryGenreName - Genre name
- * @param {string} props.thumbnailSrc - thumbnail of the media
- * @returns {JSX.Element} The RepoCard component displaying the repository information.
+ * @param {string} props.collectionName - The name of the music collection (album).
+ * @param {string} props.previewUrl - URL for previewing the track.
+ * @param {string} props.artworkUrl100 - URL for the track's artwork (image).
+ *
+ * @returns {JSX.Element} A JSX element representing the track card.
  */
 export function TrackCard({ artistName, collectionName, previewUrl, artworkUrl100 }) {
   return (
