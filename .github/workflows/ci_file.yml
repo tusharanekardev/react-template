@@ -1,4 +1,4 @@
-name: React Template CI
+name:CI for React Template
 
 on:
   pull_request_target:
