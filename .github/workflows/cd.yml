@@ -1,4 +1,4 @@
-name: CD for  React Template
+name: React Template CD
 
 on:
   push:
