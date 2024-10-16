@@ -5,6 +5,7 @@
  */
 
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 // import PropTypes from 'prop-types'
@@ -30,9 +31,25 @@ const CustomCard = styled(Card)`
  *
  * @returns {JSX.Element} A JSX element representing the track card.
  */
-export function TrackCard({ artistName, collectionName, previewUrl, artworkUrl100 }) {
+export function TrackCard({ artistName, collectionName, previewUrl, artworkUrl100, trackId }) {
+  const history = useHistory();
+
+  /**
+   * Navigates to the track details page based on the provided trackId.
+   *
+   * This function uses the `history.push` method to redirect the user to a URL that includes the track's ID.
+   * The target URL follows the pattern `/tracks/{trackId}`.
+   *
+   * @function
+   * @param {number} trackId - The ID of the track to navigate to.
+   * @param {Object} history - The history object provided by the `react-router-dom` for navigation.
+   */
+  function handleClick() {
+    history.push(`/tracks/${trackId}`);
+  }
+
   return (
-    <CustomCard data-testid="track-card">
+    <CustomCard data-testid="track-card" onClick={handleClick}>
       <img src={artworkUrl100} alt={collectionName} />
       <p>{artistName}</p>
       <p>{collectionName}</p>
@@ -44,7 +61,8 @@ TrackCard.propTypes = {
   artistName: PropTypes.string,
   collectionName: PropTypes.string,
   previewUrl: PropTypes.string,
-  artworkUrl100: PropTypes.string
+  artworkUrl100: PropTypes.string,
+  trackId: PropTypes.number
 };
 
 export default TrackCard;

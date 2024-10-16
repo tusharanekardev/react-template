@@ -15,3 +15,9 @@ export const selectLoading = () => createSelector(selectItunesDomain, (substate)
 export const selectTracksError = () => createSelector(selectItunesDomain, (substate) => get(substate, 'tracksError'));
 
 export const selectTrackName = () => createSelector(selectItunesDomain, (substate) => get(substate, 'trackName'));
+
+export const selectTrackId = () => createSelector(selectItunesDomain, (substate) => get(substate, 'trackId'));
+
+export const selectTrackData = () => createSelector(selectItunesDomain, (substate) => get(substate, 'trackData'));
+
+export const selectTrackError = () => createSelector(selectItunesDomain, (substate) => get(substate, 'trackError'));

@@ -5,17 +5,17 @@
  */
 
 import React from 'react';
-import { renderWithIntl } from '@utils/testUtils';
+import { renderProvider } from '@utils/testUtils';
 import TrackCard from '../index';
 
 describe('<TrackCard />', () => {
   it('should render and match the snapshot', () => {
-    const { baseElement } = renderWithIntl(<TrackCard />);
+    const { baseElement } = renderProvider(<TrackCard />);
     expect(baseElement).toMatchSnapshot();
   });
 
   it('should contain 1 TrackCard component', () => {
-    const { getAllByTestId } = renderWithIntl(<TrackCard />);
+    const { getAllByTestId } = renderProvider(<TrackCard />);
     expect(getAllByTestId('track-card').length).toBe(1);
   });
 });
