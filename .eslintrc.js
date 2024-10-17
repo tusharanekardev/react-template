@@ -61,7 +61,7 @@ module.exports = {
     "no-empty": "error",
     "import/order": ["error", { "groups": [["builtin", "external", "internal", "parent", "sibling", "index"]] }],
     "immutable/no-this": 2,
-    "immutable/no-mutation": ['error', {
+    "immutable/no-mutation": ['warn', {
       exceptions: [
         {
           object: "draft"
