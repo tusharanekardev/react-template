@@ -55,13 +55,6 @@ jobs:
           AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
           SOURCE_DIR: './build/'
 
-      - name: Invalidate CloudFront
-        if: github.ref == 'refs/heads/master'
-        uses: chetan/invalidate-cloudfront-action@master
-        env:
-          DISTRIBUTION: ${{ secrets.DISTRIBUTION_ID }}
-          PATHS: '/*'
-
       - name: Create badges
         run: yarn run test:badges
       - name: Commit badges
