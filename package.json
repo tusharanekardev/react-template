@@ -190,7 +190,7 @@
     "eslint-import-resolver-webpack": "^0.13.2",
     "eslint-plugin-fp": "^2.3.0",
     "eslint-plugin-github": "^4.10.2",
-    "eslint-plugin-immutable": "github:alichherawalla/eslint-plugin-immutable.git#6af48f5498ca1912b618c16bceab8c5464a92f1c",
+    "eslint-plugin-immutable": "^1.0.0",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-jest": "^23.2.0",
     "eslint-plugin-jsx-a11y": "6.2.1",
