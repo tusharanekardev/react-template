@@ -5,7 +5,8 @@
  */
 
 import React from 'react';
-import { renderProvider, renderWithIntl } from '@utils/testUtils';
+import {screen, fireEvent } from '@testing-library/dom';
+import { renderProvider} from '@utils/testUtils';
 import TrackDetails from '../index';
 
 describe('<TrackDetails />', () => {
@@ -24,4 +25,16 @@ describe('<TrackDetails />', () => {
     const { getAllByTestId } = renderProvider(<TrackDetails />);
     expect(getAllByTestId('track-details').length).toBe(1);
   });
+
+  it('should toggle the audio player on button click', () => {
+    renderProvider(<TrackDetails />)
+    expect(screen.queryByTestId('audio-player')).not.toBeInTheDocument()
+
+    const button = screen.getByTestId('card-details')
+    fireEvent.click(button)
+    expect(screen.queryByTestId('audio-player')).toBeInTheDocument()
+
+    fireEvent.click(button)
+    expect(screen.queryByTestId('audio-player')).not.toBeInTheDocument()
+  })
 });
