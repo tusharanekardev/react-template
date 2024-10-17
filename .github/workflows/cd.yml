@@ -1,8 +1,10 @@
 name: React Template CD
+
 on:
   push:
     branches:
       - master
+
 jobs:
   deploy:
     name: Deploy
@@ -14,23 +16,20 @@ jobs:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_REGION: ${{ secrets.AWS_REGION }}
+
     steps:
       - uses: actions/checkout@v2
-      - name: Check secrets
-        run: |
-          if [ -z "${{ secrets.AWS_ACCESS_KEY_ID }}" ] || [ -z "${{ secrets.AWS_SECRET_ACCESS_KEY }}" ] || [ -z "${{ secrets.AWS_REGION }}" ]; then
-            echo "One or more AWS secrets are not set. Exiting..."
-            exit 1
-          fi
-          echo "All AWS secrets are valid."
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
+
       - name: Get branch name
         id: vars
         run: echo ::set-output name=short_ref::${GITHUB_REF#refs/*/}
+
       - name: Set env.ENV_NAME
         run: |
           if [[ ${{steps.vars.outputs.short_ref}} == 'master' ]]; then
@@ -38,12 +37,16 @@ jobs:
           else
               echo "ENV_NAME=dev" >> "$GITHUB_ENV"
           fi
+
       - name: Install dependencies
         run: yarn
+
       - name: Build
         run: yarn build:${{ env.ENV_NAME }}
+
       - name: Lint
         run: yarn lint
+
       - name: Deploy to S3
         uses: jakejarvis/s3-sync-action@master
         with:
@@ -51,6 +54,7 @@ jobs:
         env:
           AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
           SOURCE_DIR: './build/'
+
       - name: Create badges
         run: yarn run test:badges
       - name: Commit badges
@@ -61,6 +65,7 @@ jobs:
           message: 'Update badges'
           add: 'badges/'
           push: false
+
       - name: Pushing to a protected branch
         uses: CasperWA/push-protected@v2
         with:
