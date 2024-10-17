@@ -4,7 +4,7 @@
  *
  */
 
-import React, { memo, useEffect } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
@@ -20,6 +20,20 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import CardActionArea from '@mui/material/CardActionArea';
+import styled from '@emotion/styled';
+
+const TrackDetailsDiv = styled.div`
+  padding: 2rem;
+`;
+
+const AudioPlayerDiv = styled.div`
+  margin-top: 2rem;
+  max-width: 345px;
+`;
+
+const CustomAudio = styled.audio`
+  width: 100%;
+`;
 
 /**
  * TrackDetails component fetches and displays the details of a track using the trackId from the URL parameters.
@@ -42,16 +56,33 @@ import CardActionArea from '@mui/material/CardActionArea';
  */
 function TrackDetails({ tracksData, dispatchItunesTrackById }) {
   const { trackId } = useParams();
+  const [isAudioPlayer, setIsAudioPlayer] = useState(false);
 
   const track = tracksData?.results?.find((item) => item?.trackId === parseInt(trackId));
+
   const {
     artworkUrl100 = '',
     collectionName = 'Unknown Collection',
     artistName = 'Unknown Artist',
     trackName = 'Unknown Track',
     trackPrice = 0,
-    country = 'Unknown Country'
+    country = 'Unknown Country',
+    previewUrl = ''
   } = track || {};
+
+  /**
+   * Toggles the state of the audio player.
+   *
+   * This function updates the `isAudioPlayer` state, switching it
+   * between `true` and `false`. If `isAudioPlayer` is `true`, the audio
+   * player will be visible; if `false`, the audio player will be hidden.
+   *
+   * @function
+   * @returns {void} Does not return a value, but toggles the state internally.
+   */
+  function handleCardClick() {
+    setIsAudioPlayer((prevIsAudioPlayer) => !prevIsAudioPlayer);
+  }
 
   useEffect(() => {
     if (!trackId || !track || !tracksData?.results?.length) {
@@ -60,8 +91,8 @@ function TrackDetails({ tracksData, dispatchItunesTrackById }) {
   }, []);
 
   return (
-    <div data-testid="track-details">
-      <Card sx={{ maxWidth: 345 }}>
+    <TrackDetailsDiv data-testid="track-details">
+      <Card sx={{ maxWidth: 345 }} data-testid="card-details" onClick={handleCardClick}>
         <CardActionArea>
           <CardMedia component="img" height="140" image={artworkUrl100} alt="green iguana" />
           <CardContent>
@@ -83,7 +114,15 @@ function TrackDetails({ tracksData, dispatchItunesTrackById }) {
           </CardContent>
         </CardActionArea>
       </Card>
-    </div>
+
+      {isAudioPlayer && (
+        <AudioPlayerDiv data-testid="audio-player">
+          <CustomAudio controls>
+            <source src={previewUrl} />
+          </CustomAudio>
+        </AudioPlayerDiv>
+      )}
+    </TrackDetailsDiv>
   );
 }
 

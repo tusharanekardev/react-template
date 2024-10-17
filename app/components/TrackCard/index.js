@@ -17,6 +17,7 @@ const CustomCard = styled(Card)`
   && {
     margin: 1rem 0;
     padding: 1rem;
+    cursor: pointer;
   }
 `;
 

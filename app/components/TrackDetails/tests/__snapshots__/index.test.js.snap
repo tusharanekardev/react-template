@@ -4,10 +4,12 @@ exports[`<TrackDetails /> should render and match the snapshot 1`] = `
 <body>
   <div>
     <div
+      class="css-1v03bf2 eh9f6zb2"
       data-testid="track-details"
     >
       <div
         class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-1ri6ub7-MuiPaper-root-MuiCard-root"
+        data-testid="card-details"
       >
         <button
           class="MuiButtonBase-root MuiCardActionArea-root css-1oitmrd-MuiButtonBase-root-MuiCardActionArea-root"
