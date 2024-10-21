@@ -12,7 +12,6 @@ import PropTypes from 'prop-types';
 // import styled from 'styled-components'
 import styled from '@emotion/styled';
 import { Card } from '@mui/material';
-
 const CustomCard = styled(Card)`
   && {
     margin: 1rem 0;
@@ -32,7 +31,8 @@ const CustomCard = styled(Card)`
  *
  * @returns {JSX.Element} A JSX element representing the track card.
  */
-export function TrackCard({ artistName, collectionName, previewUrl, artworkUrl100, trackId }) {
+export function TrackCard({ item, togglePlayPause }) {
+  const { artistName = '', collectionName = '', artworkUrl100 = '', trackId = null } = item || {};
   const history = useHistory();
 
   /**
@@ -50,11 +50,14 @@ export function TrackCard({ artistName, collectionName, previewUrl, artworkUrl10
   }
 
   return (
-    <CustomCard data-testid="track-card" onClick={handleClick}>
-      <img src={artworkUrl100} alt={collectionName} />
-      <p>{artistName}</p>
-      <p>{collectionName}</p>
-    </CustomCard>
+    <div>
+      <CustomCard data-testid="track-card" onClick={handleClick}>
+        <img src={artworkUrl100} alt={collectionName} />
+        <p>{artistName}</p>
+        <p>{collectionName}</p>
+      </CustomCard>
+      <button onClick={togglePlayPause}>Play</button>
+    </div>
   );
 }
 
@@ -63,7 +66,41 @@ TrackCard.propTypes = {
   collectionName: PropTypes.string,
   previewUrl: PropTypes.string,
   artworkUrl100: PropTypes.string,
-  trackId: PropTypes.number
+  trackId: PropTypes.number,
+  item: PropTypes.shape({
+    wrapperType: PropTypes.string,
+    kind: PropTypes.string,
+    artistId: PropTypes.number,
+    collectionId: PropTypes.number,
+    trackId: PropTypes.number,
+    artistName: PropTypes.string,
+    collectionName: PropTypes.string,
+    trackName: PropTypes.string,
+    collectionCensoredName: PropTypes.string,
+    trackCensoredName: PropTypes.string,
+    artistViewUrl: PropTypes.string,
+    collectionViewUrl: PropTypes.string,
+    trackViewUrl: PropTypes.string,
+    previewUrl: PropTypes.string,
+    artworkUrl30: PropTypes.string,
+    artworkUrl60: PropTypes.string,
+    artworkUrl100: PropTypes.string,
+    collectionPrice: PropTypes.number,
+    trackPrice: PropTypes.number,
+    releaseDate: PropTypes.string,
+    collectionExplicitness: PropTypes.string,
+    trackExplicitness: PropTypes.string,
+    discCount: PropTypes.number,
+    discNumber: PropTypes.number,
+    trackCount: PropTypes.number,
+    trackNumber: PropTypes.number,
+    trackTimeMillis: PropTypes.number,
+    country: PropTypes.string,
+    currency: PropTypes.string,
+    primaryGenreName: PropTypes.string,
+    isStreamable: PropTypes.bool
+  }),
+  togglePlayPause: PropTypes.func
 };
 
 export default TrackCard;

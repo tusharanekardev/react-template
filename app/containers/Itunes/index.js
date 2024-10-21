@@ -1,4 +1,4 @@
-import React, { useEffect, memo } from 'react';
+import React, { useEffect, memo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import debounce from 'lodash/debounce';
@@ -9,11 +9,16 @@ import { compose } from 'redux';
 import styled from '@emotion/styled';
 import { injectSaga } from 'redux-injectors';
 import { OutlinedInput } from '@mui/material';
-import { selectItunesData, selectLoading, selectTrackName } from './selectors';
+import { selectIsPlaying, selectItunesData, selectLoading, selectTrackName } from './selectors';
 import itunesSaga from './saga';
 import { itunesCreators } from './reducer';
 import { translate } from '@app/utils';
 import { TrackCard } from '@components/TrackCard';
+import { TrackPlayer } from '@app/components/TrackPlayer/index';
+
+const CustomItunesDiv = styled.div`
+  position: relative;
+`;
 
 const Container = styled.div`
   && {
@@ -53,7 +58,25 @@ const StyledOutlinedInput = styled(OutlinedInput)`
  *
  * @returns {JSX.Element} The rendered Itunes component.
  */
-export function Itunes({ dispatchItunesTracks, loading, trackName, tracksData }) {
+export function Itunes({ dispatchItunesTracks, loading, trackName, tracksData, isPlaying, dispatchIsPlaying }) {
+  const [playTrackId, setPlayTrackId] = useState(null);
+
+  /**
+   * Toggles the play/pause state of a track.
+   *
+   * @function togglePlayPause
+   * @param {string | number} trackId - The ID of the track to be played or paused.
+   * @description
+   * - Sets the currently playing track using `setPlayTrackId`.
+   * - If the track is not already playing, dispatches an action to start playing by calling `dispatchIsPlaying`.
+   */
+  function togglePlayPause(trackId) {
+    setPlayTrackId(trackId);
+    if (!isPlaying) {
+      dispatchIsPlaying();
+    }
+  }
+
   useEffect(() => {
     if (trackName && !tracksData?.results?.length) {
       dispatchItunesTracks(trackName);
@@ -75,7 +98,7 @@ export function Itunes({ dispatchItunesTracks, loading, trackName, tracksData })
   const debouncedHandleOnChange = debounce(handleOnChange, 200);
 
   return (
-    <div>
+    <CustomItunesDiv>
       <StyledOutlinedInput
         inputProps={{ 'data-testid': 'search-bar' }}
         onChange={(event) => debouncedHandleOnChange(event.target.value)}
@@ -87,9 +110,13 @@ export function Itunes({ dispatchItunesTracks, loading, trackName, tracksData })
       <For
         of={tracksData?.results}
         ParentComponent={Container}
-        renderItem={(item, index) => <TrackCard key={index} {...item} />}
+        renderItem={(item, index) => (
+          <TrackCard key={index} item={item} togglePlayPause={() => togglePlayPause(item.trackId)} />
+        )}
       />
-    </div>
+
+      <TrackPlayer playTrackId={playTrackId} />
+    </CustomItunesDiv>
   );
 }
 
@@ -100,13 +127,16 @@ Itunes.propTypes = {
   tracksData: PropTypes.shape({
     resultCount: PropTypes.number,
     results: PropTypes.array
-  })
+  }),
+  isPlaying: PropTypes.bool,
+  dispatchIsPlaying: PropTypes.func
 };
 
 const mapStateToProps = createStructuredSelector({
   loading: selectLoading(),
   tracksData: selectItunesData(),
-  trackName: selectTrackName()
+  trackName: selectTrackName(),
+  isPlaying: selectIsPlaying()
 });
 
 /**
@@ -122,9 +152,10 @@ const mapStateToProps = createStructuredSelector({
  *    with the specified track name.
  */
 export function mapDispatchToProps(dispatch) {
-  const { requestGetItunesTracks } = itunesCreators;
+  const { requestGetItunesTracks, toggleIsPlaying } = itunesCreators;
   return {
-    dispatchItunesTracks: (trackName) => dispatch(requestGetItunesTracks(trackName))
+    dispatchItunesTracks: (trackName) => dispatch(requestGetItunesTracks(trackName)),
+    dispatchIsPlaying: () => dispatch(toggleIsPlaying())
   };
 }
 

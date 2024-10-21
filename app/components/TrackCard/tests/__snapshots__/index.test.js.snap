@@ -3,13 +3,21 @@
 exports[`<TrackCard /> should render and match the snapshot 1`] = `
 <body>
   <div>
-    <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root e12nrugs0 css-vnabtd-MuiPaper-root-MuiCard-root"
-      data-testid="track-card"
-    >
-      <img />
-      <p />
-      <p />
+    <div>
+      <div
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root e12nrugs0 css-vnabtd-MuiPaper-root-MuiCard-root"
+        data-testid="track-card"
+      >
+        <img
+          alt=""
+          src=""
+        />
+        <p />
+        <p />
+      </div>
+      <button>
+        Play
+      </button>
     </div>
   </div>
 </body>
