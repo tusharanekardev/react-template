@@ -10,4 +10,12 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { TrackDetails } from '../index';
 
-storiesOf('TrackDetails').add('simple', () => <TrackDetails />);
+export default {
+    title: 'TrackDetails',
+    component: TrackDetails,
+  };
+  
+  const Template = (args) => <TrackDetails {...args} />;
+  
+  export const Default = Template.bind({});
+  Default.args = {};
