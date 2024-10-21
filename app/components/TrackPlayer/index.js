@@ -4,15 +4,10 @@
  *
  */
 
-import React, { memo, useEffect } from 'react';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
-import { createStructuredSelector } from 'reselect';
+import React, { useEffect } from 'react';
 // import PropTypes from 'prop-types'
 // import styled from 'styled-components'
 import styled from '@emotion/styled';
-import { itunesCreators } from '@app/containers/Itunes/reducer';
-import { selectIsPlaying, selectItunesData, selectLoading } from '@app/containers/Itunes/selectors';
 import PropTypes from 'prop-types';
 
 const TrackPlayerDiv = styled.div`
@@ -30,7 +25,8 @@ const TrackPlayerDiv = styled.div`
 `;
 
 /**
- * TrackPlayer component that renders the current track's information and provides play/pause functionality.
+ * TrackPlayer component that renders the current track's information
+ * and provides play/pause functionality.
  *
  * @component
  *
@@ -117,30 +113,4 @@ TrackPlayer.propTypes = {
   dispatchIsPlaying: PropTypes.func
 };
 
-const mapStateToProps = createStructuredSelector({
-  loading: selectLoading(),
-  tracksData: selectItunesData(),
-  isPlaying: selectIsPlaying()
-});
-
-/**
- * Maps dispatch actions to component props.
- *
- * @function mapDispatchToProps
- * @param {function} dispatch - The Redux `dispatch` function to trigger actions.
- * @returns {Object} An object containing the `dispatchIsPlaying` function, which dispatches the `toggleIsPlaying` action.
- *
- * @description
- * - Extracts the `toggleIsPlaying` action creator from `itunesCreators`.
- * - Provides a function `dispatchIsPlaying` that, when called, dispatches the `toggleIsPlaying` action to update the Redux store.
- */
-export function mapDispatchToProps(dispatch) {
-  const { toggleIsPlaying } = itunesCreators;
-  return {
-    dispatchIsPlaying: () => dispatch(toggleIsPlaying())
-  };
-}
-
-const withConnect = connect(mapStateToProps, mapDispatchToProps);
-
-export default compose(withConnect, memo)(TrackPlayer);
+export default TrackPlayer;

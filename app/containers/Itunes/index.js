@@ -115,7 +115,12 @@ export function Itunes({ dispatchItunesTracks, loading, trackName, tracksData, i
         )}
       />
 
-      <TrackPlayer playTrackId={playTrackId} />
+      <TrackPlayer
+        playTrackId={playTrackId}
+        tracksData={tracksData}
+        isPlaying={isPlaying}
+        dispatchIsPlaying={dispatchIsPlaying}
+      />
     </CustomItunesDiv>
   );
 }
