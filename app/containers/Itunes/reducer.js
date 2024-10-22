@@ -14,7 +14,8 @@ export const initialState = {
   loading: null,
   trackId: null,
   trackData: {},
-  trackError: null
+  trackError: null,
+  isPlaying: false
 };
 
 export const { Types: itunesTypes, Creators: itunesCreators } = createActions({
@@ -23,7 +24,8 @@ export const { Types: itunesTypes, Creators: itunesCreators } = createActions({
   failureGetItunesTracks: ['error'],
   requestGetItunesTrackById: ['trackId'],
   successGetItunesTrackById: ['trackData'],
-  failureGetItunesTrackById: ['trackError']
+  failureGetItunesTrackById: ['trackError'],
+  toggleIsPlaying: ['isPlaying']
 });
 
 /* eslint-disable complexity */
@@ -63,6 +65,10 @@ export const itunesReducer = (state = initialState, action) =>
         draft.trackError = get(action.error, 'message', 'something went wrong');
         draft.trackData = null;
         draft.loading = false;
+        break;
+
+      case itunesTypes.TOGGLE_IS_PLAYING:
+        draft.isPlaying = !state.isPlaying;
         break;
     }
   });

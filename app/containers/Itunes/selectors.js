@@ -21,3 +21,5 @@ export const selectTrackId = () => createSelector(selectItunesDomain, (substate)
 export const selectTrackData = () => createSelector(selectItunesDomain, (substate) => get(substate, 'trackData'));
 
 export const selectTrackError = () => createSelector(selectItunesDomain, (substate) => get(substate, 'trackError'));
+
+export const selectIsPlaying = () => createSelector(selectItunesDomain, (substate) => get(substate, 'isPlaying'));

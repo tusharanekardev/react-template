@@ -1,4 +1,4 @@
-import { itunesReducer, itunesTypes, initialState } from '../reducer';
+import { itunesReducer, itunesTypes, initialState, itunesCreators } from '../reducer';
 
 describe('Itunes reducer tests', () => {
   let state
@@ -77,7 +77,24 @@ it('should ensure that the trackErrorMessage has some data loading=false when FA
     })
   ).toEqual(expectedResult)
 })
-  
+
+it('should toggle isPlaying state when TOGGLE_IS_PLAYING action is dispatched', () => {
+  // Initial state where isPlaying is false
+  const state = {
+    ...initialState,
+    isPlaying: false
+  };
+
+  const action = itunesCreators.toggleIsPlaying();
+
+  const newState = itunesReducer(state, action);
+
+  expect(newState.isPlaying).toBe(true);
+
+  const toggledBackState = itunesReducer(newState, action);
+
+  expect(toggledBackState.isPlaying).toBe(false);
+});
 });
 
 
