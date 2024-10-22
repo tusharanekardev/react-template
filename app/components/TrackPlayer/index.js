@@ -58,7 +58,7 @@ export function TrackPlayer({ playTrackId, tracksData, isPlaying, dispatchIsPlay
    */
   const currentTrack = tracksData?.results?.find((track) => track?.trackId === playTrackId);
   const { artistName = '', previewUrl = '', artworkUrl100 = '', trackId = '', trackName = '' } = currentTrack || {};
-  const audio = document.getElementById('audio_tag');
+  let audio = document.getElementById('audio_tag');
 
   /**
    * Toggles the play/pause state of a track.
@@ -79,6 +79,7 @@ export function TrackPlayer({ playTrackId, tracksData, isPlaying, dispatchIsPlay
   }
 
   useEffect(() => {
+    audio = document.getElementById('audio_tag');
     if (audio) {
       audio.play();
     }
