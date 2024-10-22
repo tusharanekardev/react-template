@@ -59,19 +59,20 @@ const StyledOutlinedInput = styled(OutlinedInput)`
  * @returns {JSX.Element} The rendered Itunes component.
  */
 export function Itunes({ dispatchItunesTracks, loading, trackName, tracksData, isPlaying, dispatchIsPlaying }) {
-  const [playTrackId, setPlayTrackId] = useState(null);
+  const [currentTrack, setCurrentTrack] = useState({});
 
   /**
    * Toggles the play/pause state of a track.
    *
    * @function togglePlayPause
-   * @param {string | number} trackId - The ID of the track to be played or paused.
+   * @param {Object} item - The track object to be played or paused.
+   * @param {string | number} item.id - The unique ID of the track.
    * @description
-   * - Sets the currently playing track using `setPlayTrackId`.
-   * - If the track is not already playing, dispatches an action to start playing by calling `dispatchIsPlaying`.
+   * - Updates the currently playing track using `setCurrentTrack`.
+   * - If the track is not already playing, it dispatches an action to start playback by calling `dispatchIsPlaying`.
    */
-  function togglePlayPause(trackId) {
-    setPlayTrackId(trackId);
+  function togglePlayPause(item) {
+    setCurrentTrack(item);
     if (!isPlaying) {
       dispatchIsPlaying();
     }
@@ -111,16 +112,11 @@ export function Itunes({ dispatchItunesTracks, loading, trackName, tracksData, i
         of={tracksData?.results}
         ParentComponent={Container}
         renderItem={(item, index) => (
-          <TrackCard key={index} item={item} togglePlayPause={() => togglePlayPause(item.trackId)} />
+          <TrackCard key={index} item={item} togglePlayPause={() => togglePlayPause(item)} />
         )}
       />
 
-      <TrackPlayer
-        playTrackId={playTrackId}
-        tracksData={tracksData}
-        isPlaying={isPlaying}
-        dispatchIsPlaying={dispatchIsPlaying}
-      />
+      <TrackPlayer currentTrack={currentTrack} isPlaying={isPlaying} dispatchIsPlaying={dispatchIsPlaying} />
     </CustomItunesDiv>
   );
 }

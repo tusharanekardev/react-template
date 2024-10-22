@@ -5,8 +5,6 @@
  */
 
 import React, { useEffect } from 'react';
-// import PropTypes from 'prop-types'
-// import styled from 'styled-components'
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 
@@ -29,34 +27,25 @@ const TrackPlayerDiv = styled.div`
  * and provides play/pause functionality.
  *
  * @component
- *
- * @param {Object} props - The props object.
- * @param {number|string} props.playTrackId - The ID of the track currently selected for playback.
- * @param {Object} props.tracksData - An object containing track data, including an array of track results.
- * @param {boolean} props.isPlaying - A boolean indicating whether a track is currently playing.
- * @param {function} props.dispatchIsPlaying - A function to dispatch the action for toggling the play/pause state.
+ * @param {Object} props - Component props.
+ * @param {Object} props.currentTrack - The current track object containing information about the track.
+ * @param {string} [props.currentTrack.artistName=''] - The name of the track's artist.
+ * @param {string} [props.currentTrack.previewUrl=''] - The URL for the track's preview audio.
+ * @param {string} [props.currentTrack.artworkUrl100=''] - The URL for the track's artwork image (100x100).
+ * @param {string | number} [props.currentTrack.trackId=''] - The unique identifier of the track.
+ * @param {string} [props.currentTrack.trackName=''] - The name of the track.
+ * @param {boolean} props.isPlaying - Boolean indicating whether the track is currently playing.
+ * @param {Function} props.dispatchIsPlaying - Function to dispatch an action that toggles the play/pause state.
  *
  * @description
- * - Displays information about the current track (such as the track name, artist name, and artwork).
- * - Provides a button to toggle between playing and pausing the track.
- * - Plays the track automatically when a new `playTrackId` is provided.
+ * - Renders a track player with controls to play/pause a track.
+ * - Displays the track's artwork, name, and artist.
+ * - Uses an HTML `<audio>` element to play a preview of the track.
+ * - Automatically plays a new track when `currentTrack` changes.
  *
  * @returns {JSX.Element} The rendered TrackPlayer component.
  */
-export function TrackPlayer({ playTrackId, tracksData, isPlaying, dispatchIsPlaying }) {
-  /**
-   * Finds the current track being played from the list of tracks.
-   *
-   * @constant {Object|undefined} currentTrack
-   * @description
-   * - Searches for the track with a `trackId` that matches the `playTrackId` in the `tracksData.results` array.
-   * - If `tracksData` or `results` is undefined, it safely returns `undefined` without throwing an error.
-   *
-   * @param {Array<Object>} [tracksData.results] - The array of track objects from which to find the current track.
-   * @param {number|string} playTrackId - The ID of the track currently being played.
-   * @returns {Object|undefined} The track object with the matching `trackId`, or `undefined` if no match is found.
-   */
-  const currentTrack = tracksData?.results?.find((track) => track?.trackId === playTrackId);
+export function TrackPlayer({ currentTrack, isPlaying, dispatchIsPlaying }) {
   const { artistName = '', previewUrl = '', artworkUrl100 = '', trackId = '', trackName = '' } = currentTrack || {};
   let audio = document.getElementById('audio_tag');
 
@@ -83,7 +72,7 @@ export function TrackPlayer({ playTrackId, tracksData, isPlaying, dispatchIsPlay
     if (audio) {
       audio.play();
     }
-  }, [playTrackId]);
+  }, [currentTrack]);
 
   return (
     <TrackPlayerDiv data-testid="track-player">
@@ -105,10 +94,38 @@ export function TrackPlayer({ playTrackId, tracksData, isPlaying, dispatchIsPlay
 }
 
 TrackPlayer.propTypes = {
-  playTrackId: PropTypes.number,
-  tracksData: PropTypes.shape({
-    resultCount: PropTypes.number,
-    results: PropTypes.array
+  currentTrack: PropTypes.shape({
+    wrapperType: PropTypes.string,
+    kind: PropTypes.string,
+    artistId: PropTypes.number,
+    collectionId: PropTypes.number,
+    trackId: PropTypes.number,
+    artistName: PropTypes.string,
+    collectionName: PropTypes.string,
+    trackName: PropTypes.string,
+    collectionCensoredName: PropTypes.string,
+    trackCensoredName: PropTypes.string,
+    artistViewUrl: PropTypes.string,
+    collectionViewUrl: PropTypes.string,
+    trackViewUrl: PropTypes.string,
+    previewUrl: PropTypes.string,
+    artworkUrl30: PropTypes.string,
+    artworkUrl60: PropTypes.string,
+    artworkUrl100: PropTypes.string,
+    collectionPrice: PropTypes.number,
+    trackPrice: PropTypes.number,
+    releaseDate: PropTypes.string,
+    collectionExplicitness: PropTypes.string,
+    trackExplicitness: PropTypes.string,
+    discCount: PropTypes.number,
+    discNumber: PropTypes.number,
+    trackCount: PropTypes.number,
+    trackNumber: PropTypes.number,
+    trackTimeMillis: PropTypes.number,
+    country: PropTypes.string,
+    currency: PropTypes.string,
+    primaryGenreName: PropTypes.string,
+    isStreamable: PropTypes.bool
   }),
   isPlaying: PropTypes.bool,
   dispatchIsPlaying: PropTypes.func
